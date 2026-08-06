@@ -3,36 +3,26 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  const { concept, event, dataPoint, application, evaluation, command } = req.body;
+  const { concept, event, dataPoint, application, evaluation } = req.body;
 
-  const system = `You are an IB Economics examiner. Using ONLY the real-world example and data provided below, write a ${command} response for an IB Paper 1 essay.
+  const prompt = `You are an IB Economics examiner. Using ONLY the real-world example and data provided below, write exactly 3 bullet points for an IB Paper 1 essay.
 
-Output exactly 4 separate paragraphs with these labels:
-
-**Definition**
-(1-2 lines defining the concept)
-
-**Mechanism**
-(2-3 lines explaining the diagram or economic mechanism)
-
-**Real-World Example**
-(3-4 lines applying the provided example and exact data)
-
-**Evaluation**
-(2-3 lines of "it depends" — only if command is Evaluate or Discuss; otherwise write "N/A")
+Format:
+• Data point: [1-2 sentences using the exact data provided to support the concept]
+• Advantage: [1-2 sentences explaining one advantage or positive outcome, with a data point]
+• Disadvantage: [1-2 sentences explaining one disadvantage or limitation, with a data point]
 
 Rules:
 - Do not invent data. Use only what is provided.
-- Keep each paragraph focused. Do not merge sections.
+- Each bullet must be 1-2 sentences maximum.
 - Write in a concise, academic tone.
-- Do not add introductions or conclusions outside the 4 paragraphs.`;
+- Do not add introductions, conclusions, or extra sections.
 
-  const user = `Concept: ${concept}
+Concept: ${concept}
 Event: ${event}
 Data point: ${dataPoint}
 Application context: ${application}
-Evaluation context: ${evaluation}
-Command term: ${command}`;
+Evaluation context: ${evaluation}`;
 
   try {
     const response = await fetch('https://api.deepseek.com/chat/completions', {
@@ -43,32 +33,26 @@ Command term: ${command}`;
       },
       body: JSON.stringify({
         model: 'deepseek-chat',
-        messages: [
-          { role: 'system', content: system },
-          { role: 'user', content: user }
-        ],
+        messages: [{ role: 'user', content: prompt }],
         temperature: 0.3,
-        max_tokens: 800
+        max_tokens: 600
       })
     });
 
     const data = await response.json();
-
-    // DEBUG: Log the full response to Vercel logs
     console.log('DeepSeek response:', JSON.stringify(data, null, 2));
 
-    // Check for API errors first
     if (data.error) {
-      return res.status(500).json({ 
-        error: `DeepSeek API Error: ${data.error.message || JSON.stringify(data.error)}` 
+      return res.status(500).json({
+        error: `DeepSeek API Error: ${data.error.message || JSON.stringify(data.error)}`
       });
     }
 
     const text = data.choices?.[0]?.message?.content;
-    
+
     if (!text) {
-      return res.status(500).json({ 
-        error: `No content in response. Full response: ${JSON.stringify(data)}` 
+      return res.status(500).json({
+        error: `No content. Full response: ${JSON.stringify(data)}`
       });
     }
 
