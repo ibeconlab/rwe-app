@@ -53,10 +53,28 @@ Command term: ${command}`;
     });
 
     const data = await response.json();
-    const text = data.choices?.[0]?.message?.content || 'Error: no response from AI';
+
+    // DEBUG: Log the full response to Vercel logs
+    console.log('DeepSeek response:', JSON.stringify(data, null, 2));
+
+    // Check for API errors first
+    if (data.error) {
+      return res.status(500).json({ 
+        error: `DeepSeek API Error: ${data.error.message || JSON.stringify(data.error)}` 
+      });
+    }
+
+    const text = data.choices?.[0]?.message?.content;
+    
+    if (!text) {
+      return res.status(500).json({ 
+        error: `No content in response. Full response: ${JSON.stringify(data)}` 
+      });
+    }
+
     res.status(200).json({ text });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: 'Generation failed' });
+  } catch (e: any) {
+    console.error('Fetch error:', e);
+    res.status(500).json({ error: `Network error: ${e.message}` });
   }
 }
