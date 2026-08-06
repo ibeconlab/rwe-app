@@ -10,11 +10,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const data = records.map(r => ({
       id: r.id,
       concept: r.get('Concept') as string || '',
+      section: r.get('Section') as string || '',
       event: r.get('Event') as string || '',
       dataPoint: r.get('Data point') as string || '',
       application: r.get('Application') as string || '',
       evaluation: r.get('Evaluation') as string || '',
-      hl: !!r.get('HL'),
       freeTier: !!r.get('Free tier'),
     }));
     res.status(200).json(data);
