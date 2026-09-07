@@ -9,9 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 Format:
 • Data point: [Rewrite the Data point field below into 1-2 fluent sentences]  
-<br>  
 • Advantage: [Rewrite the Advantage field below into 1-2 fluent sentences]  
-<br>
 • Disadvantage: [Rewrite the Evaluation field below into 1-2 fluent sentences]
 
 Rules:
