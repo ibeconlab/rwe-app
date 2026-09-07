@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 Format:
 • Data point: [Rewrite the Data point field below into 1-2 fluent sentences]
-• Advantage: [Rewrite the Application context field below into 1-2 fluent sentences]
+• Advantage: [Rewrite the Advantage context field below into 1-2 fluent sentences]
 • Disadvantage: [Rewrite the Evaluation context field below into 1-2 fluent sentences]
 
 Rules:
@@ -19,7 +19,7 @@ Rules:
 - 1-2 sentences per bullet maximum.
 
 Data point: ${dataPoint}
-Application context: ${application}
+Advantage context: ${advantage}
 Evaluation context: ${evaluation}`;
 
   try {
