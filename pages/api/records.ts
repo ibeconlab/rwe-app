@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       concept: r.get('Concept') as string || '',
       section: r.get('Section') as string || '',
       event: r.get('Event') as string || '',
-      dataPoint: r.get('Data point') as string || '',
+      dataPoint: r.get('Data Point') as string || '',
       advantage: r.get('Advantage') as string || '',
       evaluation: r.get('Evaluation') as string || '',
       freeTier: !!r.get('Free tier'),
