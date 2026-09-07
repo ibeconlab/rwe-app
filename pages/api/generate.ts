@@ -9,8 +9,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 Format:
 • Data point: [Rewrite the Data point field below into 1-2 fluent sentences]
-• Advantage: [Rewrite the Advantage context field below into 1-2 fluent sentences]
-• Disadvantage: [Rewrite the Evaluation context field below into 1-2 fluent sentences]
+• Advantage: [Rewrite the Advantage field below into 1-2 fluent sentences]
+• Disadvantage: [Rewrite the Evaluation field below into 1-2 fluent sentences]
 
 Rules:
 - Use ONLY the text provided in the fields below.
@@ -19,8 +19,8 @@ Rules:
 - 1-2 sentences per bullet maximum.
 
 Data point: ${dataPoint}
-Advantage context: ${advantage}
-Evaluation context: ${evaluation}`;
+Advantage: ${advantage}
+Evaluation: ${evaluation}`;
 
   try {
     const response = await fetch('https://api.deepseek.com/chat/completions', {
