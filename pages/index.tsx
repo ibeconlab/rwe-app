@@ -6,7 +6,7 @@ type RweRecord = {
   section: string;
   event: string;
   dataPoint: string;
-  application: string;
+  advantage: string;
   evaluation: string;
   freeTier: boolean;
 };
