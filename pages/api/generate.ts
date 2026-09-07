@@ -14,7 +14,7 @@ Format:
 
 Rules:
 - Write in a concise, academic tone.
-- 1-2 sentences per bullet maximum.
+- 2 sentences per bullet, and develop using what is provided using IB economics theory.
 
 Data point: ${dataPoint}
 Advantage: ${advantage}
