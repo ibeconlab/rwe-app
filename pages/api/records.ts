@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       section: r.get('Section') as string || '',
       event: r.get('Event') as string || '',
       dataPoint: r.get('Data point') as string || '',
-      application: r.get('Application') as string || '',
+      advantage: r.get('Advantage') as string || '',
       evaluation: r.get('Evaluation') as string || '',
       freeTier: !!r.get('Free tier'),
     }));
