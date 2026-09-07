@@ -5,21 +5,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const { concept, event, dataPoint, application, evaluation } = req.body;
 
-  const prompt = `You are an IB Economics examiner. Using ONLY the real-world example and data provided below, write exactly 3 bullet points for an IB Paper 1 essay.
+  const prompt = `You are an IB Economics examiner. Write exactly 3 bullet points for an IB Paper 1 essay using ONLY the provided fields below. Do not invent data. Do not add outside information.
 
 Format:
-• Data point: [1-2 sentences using the exact data provided to support the concept]
-• Advantage: [1-2 sentences explaining one advantage or positive outcome, with a data point]
-• Disadvantage: [1-2 sentences explaining one disadvantage or limitation, with a data point]
+• Data point: [Rewrite the Data point field below into 1-2 fluent sentences]
+• Advantage: [Rewrite the Application context field below into 1-2 fluent sentences]
+• Disadvantage: [Rewrite the Evaluation context field below into 1-2 fluent sentences]
 
 Rules:
-- Do not invent data. Use only what is provided.
-- Each bullet must be 1-2 sentences maximum.
+- Use ONLY the text provided in the fields below.
+- Do not change the meaning. Do not add facts not in the fields.
 - Write in a concise, academic tone.
-- Do not add introductions, conclusions, or extra sections.
+- 1-2 sentences per bullet maximum.
 
-Concept: ${concept}
-Event: ${event}
 Data point: ${dataPoint}
 Application context: ${application}
 Evaluation context: ${evaluation}`;
@@ -34,7 +32,7 @@ Evaluation context: ${evaluation}`;
       body: JSON.stringify({
         model: 'deepseek-chat',
         messages: [{ role: 'user', content: prompt }],
-        temperature: 0.3,
+        temperature: 0.1,
         max_tokens: 600
       })
     });
