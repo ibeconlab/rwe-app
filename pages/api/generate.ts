@@ -5,44 +5,49 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const { concept, event, dataPoint, application, evaluation } = req.body;
 
-  const prompt = `You are an IB Economics examiner. Write exactly 3 bullet points for an IB Paper 1 essay using ONLY the provided fields below. Do not invent data. Do not add outside information.
+  const prompt = `You are an IB Economics examiner. Using ONLY the real-world example and data provided below, write exactly 3 bullet points for an IB Paper 1 essay.
 
 Format:
-• Data point: [Rewrite the Data point field below into 1-2 fluent sentences]
-• Advantage: [Rewrite the Application context field below into 1-2 fluent sentences]
-• Disadvantage: [Rewrite the Evaluation context field below into 1-2 fluent sentences]
+• Data point: [1-2 sentences using the exact data provided to support the concept]
+• Advantage: [1-2 sentences explaining one advantage or positive outcome, with a data point]
+• Disadvantage: [1-2 sentences explaining one disadvantage or limitation, with a data point]
 
 Rules:
-- Use ONLY the text provided in the fields below.
-- Do not change the meaning. Do not add facts not in the fields.
+- Do not invent data. Use only what is provided.
+- Each bullet must be 1-2 sentences maximum.
 - Write in a concise, academic tone.
-- 1-2 sentences per bullet maximum.
+- Do not add introductions, conclusions, or extra sections.
 
+Concept: ${concept}
+Event: ${event}
 Data point: ${dataPoint}
 Application context: ${application}
 Evaluation context: ${evaluation}`;
 
   try {
-    const response = await fetch('https://api.deepseek.com/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: 'deepseek-chat',
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.1,
-        max_tokens: 600
-      })
-    });
+    const response = await fetch(
+      'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.DASHSCOPE_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'qwen-turbo',
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.3,
+          max_tokens: 600
+        })
+      }
+    );
 
     const data = await response.json();
-    console.log('DeepSeek response:', JSON.stringify(data, null, 2));
+    console.log('Qwen response:', JSON.stringify(data, null, 2));
 
     if (data.error) {
       return res.status(500).json({
-        error: `DeepSeek API Error: ${data.error.message || JSON.stringify(data.error)}`
+        error: `Qwen API Error: ${data.error.message || JSON.stringify(data.error)}`
       });
     }
 
