@@ -3,14 +3,14 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  const { concept, event, dataPoint, advantage, disadvantage } = req.body;
+  const { concept, event, dataPoint, application, evaluation } = req.body;
 
   const prompt = `You are an IB Economics examiner. Write exactly 3 bullet points for an IB Paper 1 essay using ONLY the provided fields below. Do not invent data. Do not add outside information.
 
 Format:
 • Data point: [Rewrite the Data point field below into 1-2 fluent sentences]
-• Advantage: [Rewrite the Advantage context field below into 1-2 fluent sentences]
-• Disadvantage: [Rewrite the Disadvantage context field below into 1-2 fluent sentences]
+• Advantage: [Rewrite the Application context field below into 1-2 fluent sentences]
+• Disadvantage: [Rewrite the Evaluation context field below into 1-2 fluent sentences]
 
 Rules:
 - Use ONLY the text provided in the fields below.
@@ -19,8 +19,8 @@ Rules:
 - 1-2 sentences per bullet maximum.
 
 Data point: ${dataPoint}
-Advantage context: ${advantage}
-Disadvantage context: ${disadvantage}`;
+Application context: ${application}
+Evaluation context: ${evaluation}`;
 
   try {
     const response = await fetch('https://api.deepseek.com/chat/completions', {
