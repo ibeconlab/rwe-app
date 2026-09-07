@@ -8,12 +8,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const prompt = `You are an IB Economics examiner. Write exactly 3 bullet points for an IB Paper 1 essay using ONLY the provided fields below. Do not invent data. Do not add outside information.
 
 Format:
-• Data point: [Rewrite the Data point field below into 1-2 fluent sentences]
-
-• Advantage: [Rewrite the Advantage field below into 1-2 fluent sentences]
-
+• Data point: [Rewrite the Data point field below into 1-2 fluent sentences]<br><br>
+• Advantage: [Rewrite the Advantage field below into 1-2 fluent sentences]<br><br>
 • Disadvantage: [Rewrite the Evaluation field below into 1-2 fluent sentences]
-Note: Leave a blank empty line between each bullet point in the final output.
 
 Rules:
 - Write in a concise, academic tone.
