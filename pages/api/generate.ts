@@ -13,8 +13,6 @@ Format:
 • Disadvantage: [Rewrite the Evaluation field below into 1-2 fluent sentences]
 
 Rules:
-- Do not invent data. Use only what is provided.
-- Do not change the meaning. Do not add facts not in the fields.
 - Write in a concise, academic tone.
 - 1-2 sentences per bullet maximum.
 
